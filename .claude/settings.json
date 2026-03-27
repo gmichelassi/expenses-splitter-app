@@ -19,7 +19,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PreToolUse --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type PreToolUse --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -34,7 +34,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PostToolUse --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type PostToolUse --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -48,7 +48,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type Notification --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type Notification --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -62,7 +62,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type Stop --add-chat --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type Stop --add-chat --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -76,7 +76,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type SubagentStop --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type SubagentStop --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -90,7 +90,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PreCompact --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type PreCompact --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -108,7 +108,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type UserPromptSubmit --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type UserPromptSubmit --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -122,7 +122,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type SessionStart --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type SessionStart --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -136,7 +136,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type SessionEnd --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type SessionEnd --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -151,7 +151,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PermissionRequest --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type PermissionRequest --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -166,7 +166,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type PostToolUseFailure --summarize --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type PostToolUseFailure --summarize --server-url http://localhost:3001/events"
           }
         ]
       }
@@ -181,7 +181,7 @@
           },
           {
             "type": "command",
-            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app cc-hook-multi-agent-obvs --event-type SubagentStart --server-url http://localhost:3001/events"
+            "command": "uv run --python 3.11 $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app expenses-splitter-app --event-type SubagentStart --server-url http://localhost:3001/events"
           }
         ]
       }
