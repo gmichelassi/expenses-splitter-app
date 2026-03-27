@@ -1,0 +1,165 @@
+name: Scaffold Next.js Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: "Human-readable project name"
+        required: true
+        type: string
+      project_description:
+        description: "Project description"
+        required: true
+        type: string
+      package_manager:
+        description: "Package manager"
+        required: true
+        default: "npm"
+        type: choice
+        options:
+          - npm
+          - bun
+          - pnpm
+          - yarn
+      typescript:
+        description: "Enable TypeScript"
+        required: true
+        default: true
+        type: boolean
+      eslint:
+        description: "Enable ESLint"
+        required: true
+        default: true
+        type: boolean
+      app_router:
+        description: "Use App Router"
+        required: true
+        default: true
+        type: boolean
+      tailwind:
+        description: "Enable Tailwind CSS"
+        required: true
+        default: false
+        type: boolean
+      src_dir:
+        description: "Use src/ directory"
+        required: true
+        default: true
+        type: boolean
+      turbopack:
+        description: "Enable Turbopack"
+        required: true
+        default: false
+        type: boolean
+      import_alias:
+        description: "Import alias (for example @/*)"
+        required: true
+        default: "@/*"
+        type: string
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      PROJECT_NAME: ${{ inputs.project_name }}
+      PROJECT_DESCRIPTION: ${{ inputs.project_description }}
+      PACKAGE_MANAGER: ${{ inputs.package_manager }}
+      TYPESCRIPT: ${{ inputs.typescript }}
+      ESLINT: ${{ inputs.eslint }}
+      APP_ROUTER: ${{ inputs.app_router }}
+      TAILWIND: ${{ inputs.tailwind }}
+      SRC_DIR: ${{ inputs.src_dir }}
+      TURBOPACK: ${{ inputs.turbopack }}
+      IMPORT_ALIAS: ${{ inputs.import_alias }}
+    outputs:
+      repository_url: ${{ steps.publish.outputs.repository_url }}
+    steps:
+      - name: Checkout template repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Cookiecutter
+        run: python -m pip install --upgrade pip cookiecutter
+
+      - name: Render project from Cookiecutter template
+        run: |
+          rm -rf generated
+          mkdir -p generated
+
+          cookiecutter ./cookiecutter-nextjs \
+            --no-input \
+            --output-dir generated \
+            project_name="${PROJECT_NAME}" \
+            project_slug="${GITHUB_REPOSITORY##*/}" \
+            project_description="${PROJECT_DESCRIPTION}" \
+            package_manager="${PACKAGE_MANAGER}" \
+            typescript="${TYPESCRIPT}" \
+            eslint="${ESLINT}" \
+            app_router="${APP_ROUTER}" \
+            tailwind="${TAILWIND}" \
+            src_dir="${SRC_DIR}" \
+            turbopack="${TURBOPACK}" \
+            import_alias="${IMPORT_ALIAS}"
+
+      - name: Commit and push scaffolded code
+        id: publish
+        run: |
+          full_repo="${GITHUB_REPOSITORY}"
+          repo_slug="${GITHUB_REPOSITORY##*/}"
+          generated_path="generated/${repo_slug}"
+
+          rsync -a --delete \
+            --exclude ".git" \
+            --exclude "/generated/" \
+            --exclude "/.github/" \
+            --exclude "/.claude/" \
+            "${generated_path}/" "${GITHUB_WORKSPACE}/"
+          cd "${GITHUB_WORKSPACE}"
+
+          source_app="${repo_slug}"
+          settings_path=".claude/settings.json"
+          if [ -f "${settings_path}" ]; then
+            python - "${settings_path}" "${source_app}" <<'PY'
+          import pathlib
+          import sys
+
+          path = pathlib.Path(sys.argv[1])
+          source_app = sys.argv[2]
+          placeholder = "cc-hook-multi-agent-obvs"
+
+          content = path.read_text(encoding="utf-8")
+          if placeholder in content:
+              path.write_text(content.replace(placeholder, source_app), encoding="utf-8")
+              print(f"Updated --source-app placeholder in {path}")
+          PY
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No scaffold changes to commit."
+          else
+            git commit -m "Scaffold Next.js app from cookiecutter-nextjs"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+          echo "repository_url=${GITHUB_SERVER_URL}/${full_repo}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish summary
+        run: |
+          echo "## Scaffold Result" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Repository: ${{ steps.publish.outputs.repository_url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Owner: ${GITHUB_REPOSITORY%%/*}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Package manager: ${PACKAGE_MANAGER}" >> "$GITHUB_STEP_SUMMARY"

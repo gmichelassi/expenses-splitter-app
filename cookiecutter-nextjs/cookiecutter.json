@@ -1,0 +1,18 @@
+{
+  "project_name": "My Next App",
+  "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-')|replace('_', '-') }}",
+  "project_description": "Internal application generated with company defaults.",
+  "package_manager": [
+    "npm",
+    "bun",
+    "pnpm",
+    "yarn"
+  ],
+  "typescript": "yes",
+  "eslint": "yes",
+  "app_router": "yes",
+  "tailwind": "no",
+  "src_dir": "yes",
+  "turbopack": "no",
+  "import_alias": "@/*"
+}
